@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "548234395188",
+    "firebase_url": "https://smart-gas-detection-system-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "smart-gas-detection-system",
+    "storage_bucket": "smart-gas-detection-system.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548234395188:android:cbc23cdc092210ceb21461",
+        "android_client_info": {
+          "package_name": "com.example.gas_detection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548234395188-4vdabebj811rj5uoupp1tt36npfei4k5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC845fhFsat9aDDw021IBC9WlhzN_12E60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548234395188-4vdabebj811rj5uoupp1tt36npfei4k5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
