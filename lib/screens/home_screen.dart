@@ -155,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           style: const TextStyle(
                                             color: Colours.fontColor1,
                                             fontWeight: FontWeight.w600,
-                                            fontSize: 14,
+                                            fontSize: 16,
                                           ),
                                         ),
                                       ),
@@ -178,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           style: const TextStyle(
                                             color: Colours.fontColor1,
                                             fontWeight: FontWeight.w600,
-                                            fontSize: 14,
+                                            fontSize: 16,
                                           ),
                                         ),
                                       ),
@@ -191,11 +191,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     MediaQuery.of(context).size.height * 0.02,
                               ),
                               Text(
-                                'Temperature: $Temp, C',
+                                'Temperature: $Temp °C',
                                 style: const TextStyle(
                                   color: Colours.fontColor2,
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 16,
+                                  fontSize: 17,
                                 ),
                               ),
                             ],
