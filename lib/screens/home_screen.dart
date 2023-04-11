@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Center(
                         child: Container(
-                          height: MediaQuery.of(context).size.height * 0.40,
+                          height: MediaQuery.of(context).size.height * 0.38,
                           width: MediaQuery.of(context).size.width * 0.9,
                           decoration: const BoxDecoration(
                             color: Colours.containerBg,
@@ -113,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                                 height:
-                                    MediaQuery.of(context).size.height * 0.18,
+                                    MediaQuery.of(context).size.height * 0.16,
                                 width: MediaQuery.of(context).size.width * 0.7,
                                 child: Center(
                                   child: Text(
