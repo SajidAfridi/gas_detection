@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gas_detection/screens/authentication/login_page.dart';
+import 'package:gas_detection/screens/authentication/register_page.dart';
 import 'package:gas_detection/screens/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -24,9 +26,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.red,
         ),
-        home: const HomeScreen()
+        home: const LogInScreen(),
     );
   }
 }

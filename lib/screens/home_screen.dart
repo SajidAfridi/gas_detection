@@ -60,10 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     () {
                       if (event.snapshot.value.toString() == 'false') {
                         Fire = 'No';
-                      } else if(event.snapshot.value.toString() == 'true') {
+                      } else if (event.snapshot.value.toString() == 'true') {
                         Fire = 'Yes';
-                      }
-                      else {
+                      } else {
                         Fire = 'None';
                       }
                     },
