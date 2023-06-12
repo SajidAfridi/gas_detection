@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gas_detection/screens/authentication/register_page.dart';
 import 'package:gas_detection/screens/home_screen.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/app_colors.dart';
 import '../../widgets/button_style.dar.dart';
@@ -33,7 +35,7 @@ class _LogInScreenState extends State<LogInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.black26,
+      backgroundColor: Colours.scaffoldBg,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -48,184 +50,188 @@ class _LogInScreenState extends State<LogInScreen> {
           const SizedBox(
             height: 20,
           ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Container(
-              height: 340,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(30),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.redAccent.withOpacity(0.8),
-                    spreadRadius: 4,
-                    blurRadius: 2,
-                    offset: const Offset(1, 1),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                height: 340,
+                decoration: BoxDecoration(
+                  color: Colours.containerBg,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(30),
                   ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Login',
-                    style: TextStyle(
-                      color: Colours.fontColor2,
-                      fontSize: 27,
-                      fontWeight: FontWeight.w600,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.redAccent.withOpacity(0.8),
+                      spreadRadius: 4,
+                      blurRadius: 2,
+                      offset: const Offset(1, 1),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
-                    child: Form(
-                      key: formKey,
-                      child: Column(
-                        children: [
-                          SingleChildScrollView(
-                            child: SizedBox(
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Login',
+                      style: TextStyle(
+                        color: Colours.fontColor1,
+                        fontSize: 27,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
+                      child: Form(
+                        key: formKey,
+                        child: Column(
+                          children: [
+                            SingleChildScrollView(
+                              child: SizedBox(
+                                width: 290,
+                                height: loginPressed ? 70 : 50,
+                                child: TextFormField(
+                                  controller: chipID,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                  ),
+                                  decoration: inputDecoration("Email"),
+                                  validator: (value) {
+                                    final RegExp emailRegExp = RegExp(
+                                        r'^[\w-]+@([\w-]+\.)+[\w-]{2,4}$');
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter an email address';
+                                    } else if (!emailRegExp.hasMatch(value)) {
+                                      return 'Please enter a valid email address';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 13),
+                            SizedBox(
                               width: 290,
                               height: loginPressed ? 70 : 50,
                               child: TextFormField(
-                                controller: chipID,
+                                obscureText: true,
+                                controller: password,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 16,
                                 ),
-                                decoration: inputDecoration("Email"),
+                                decoration: inputDecoration("Password"),
                                 validator: (value) {
-                                  final RegExp emailRegExp =
-                                      RegExp(r'^[\w-]+@([\w-]+\.)+[\w-]{2,4}$');
+                                  final RegExp passwordRegExp = RegExp(
+                                      r'^(?=.*[A-Za-z\d])[A-Za-z\d]{6,}$');
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter an email address';
-                                  } else if (!emailRegExp.hasMatch(value)) {
-                                    return 'Please enter a valid email address';
+                                    return 'Please enter a password';
+                                  } else if (!passwordRegExp.hasMatch(value)) {
+                                    return 'Password must be at least 6 characters long';
                                   }
                                   return null;
                                 },
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 13),
-                          SizedBox(
-                            width: 290,
-                            height: loginPressed ? 70 : 50,
-                            child: TextFormField(
-                              obscureText: true,
-                              controller: password,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                              ),
-                              decoration: inputDecoration("Password"),
-                              validator: (value) {
-                                final RegExp passwordRegExp =
-                                    RegExp(r'^(?=.*[A-Za-z\d])[A-Za-z\d]{6,}$');
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter a password';
-                                } else if (!passwordRegExp.hasMatch(value)) {
-                                  return 'Password must be at least 6 characters long';
-                                }
-                                return null;
-                              },
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RegisterScreen(),
-                                    ),
-                                  );
-                                },
-                                child: const Text(
-                                  "Forget Password",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 18,
-                                      color: Colours.themeColor),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const SizedBox(
+                                  width: 10,
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 5),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: OutlinedButton(
+                                TextButton(
                                   onPressed: () {
-                                    setState(() {
-                                      loginPressed = !loginPressed;
-                                    });
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const RegisterScreen(),
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            "Forget Password is not Available right now"),
                                       ),
                                     );
                                   },
-                                  style: buttonStyle.copyWith(
+                                  child: const Text(
+                                    "Forget Password",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 18,
+                                        color: Colours.fontColor1),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 5),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: OutlinedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        loginPressed = !loginPressed;
+                                      });
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const RegisterScreen(),
+                                        ),
+                                      );
+                                    },
+                                    style: buttonStyle.copyWith(
                                       backgroundColor:
-                                          const MaterialStatePropertyAll(
-                                              Colors.black26)),
-                                  child: const Text(
-                                    "SignUp",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 18,
+                                       const MaterialStatePropertyAll(
+                                        Colours.fontColor1,
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      "SignUp",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 18,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      loginPressed = !loginPressed;
-                                    });
-                                    signIn();
-                                  },
-                                  style: buttonStyle,
-                                  child: const Text(
-                                    "Sign In",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 18,
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        loginPressed = !loginPressed;
+                                      });
+                                      signIn();
+                                    },
+                                    style: buttonStyle,
+                                    child: const Text(
+                                      "Sign In",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 18,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -249,12 +255,8 @@ class _LogInScreenState extends State<LogInScreen> {
             await SharedPreferences.getInstance();
         sharedPreferences.setBool('isLoggedIn', true);
         sharedPreferences.setString('uid', uid);
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
-          ),
+        Get.offAll(
+              () => const HomeScreen(),
         );
       } on FirebaseAuthException catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(

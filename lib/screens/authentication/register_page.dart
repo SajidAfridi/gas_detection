@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../common/app_colors.dart';
 import '../../widgets/button_style.dar.dart';
 import '../../widgets/input_decoration.dart';
@@ -14,17 +13,16 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  TextEditingController chipID = TextEditingController();
+  TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  bool loginPressed = false;
   bool isRegistering = false;
 
   @override
   void dispose() {
-    chipID.dispose();
+    email.dispose();
     password.dispose();
     super.dispose();
   }
@@ -33,7 +31,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.black26,
+      backgroundColor: Colours.scaffoldBg,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -53,7 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Container(
               height: 380,
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: Colours.containerBg,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(30),
                 ),
@@ -90,9 +88,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             SingleChildScrollView(
                               child: SizedBox(
                                 width: 290,
-                                height: loginPressed ? 70 : 50,
+                                height: 50,
                                 child: TextFormField(
-                                  controller: chipID,
+                                  controller: email,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16,
@@ -114,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             const SizedBox(height: 13),
                             SizedBox(
                               width: 290,
-                              height: loginPressed ? 70 : 50,
+                              height: 50,
                               child: TextFormField(
                                 obscureText: true,
                                 controller: password,
@@ -140,7 +138,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             SizedBox(
                               width: 290,
-                              height: loginPressed ? 70 : 50,
+                              height: 50,
                               child: TextFormField(
                                 obscureText: true,
                                 controller: confirmPassword,
@@ -166,8 +164,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LogInScreen(),
+                                      builder: (context) => const LogInScreen(),
                                     ),
                                   );
                                 },
@@ -184,11 +181,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             Center(
                               child: ElevatedButton(
                                 onPressed: () {
-                                  setState(() {
-                                    loginPressed = !loginPressed;
-                                  });
-                                  Navigator.pushNamed(
-                                      context, 'register_screen');
+                                  registerUser();
                                 },
                                 style: buttonStyle,
                                 child: const Text(
@@ -223,20 +216,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void registerUser() {
     if (formKey.currentState!.validate()) {
       setState(() {
-        loginPressed = true;
         isRegistering = true;
       });
       // Register user with email and password
       FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-              email: chipID.text, password: password.text)
+              email: email.text, password: password.text)
           .then((authResult) async {
-        // Save user details to Firestore
-        SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
-        sharedPreferences.setString('uid', authResult.user!.uid);
-
-        // Navigate to the Questionnaire Screen
         Navigator.push(
           context,
           MaterialPageRoute(
